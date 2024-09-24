@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Algorithms</title>
+    <link rel="stylesheet" href="algorithmsPage.css">
+</head>
+<body>
+<header>
+    <div class="headBox">Algorithms</div>
+</header>
+<main>
+    <section class="algorithm-card">
+        <h2>Bubble sort algorithm</h2>
+        <p>Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in the wrong order. This algorithm is not suitable for large data sets as its average and worst-case time complexity is quite high.</p>
+        <h3>Time Complexity</h3>
+        <p>Time Complexity: O(N ^ 2)
+        </p>
+        <pre><code>
+void bubbleSort(int arr[], int n)
+{
+    int i, j;
+    bool swapped;
+    for (i = 0; i < n - 1; i++) {
+        swapped = false;
+        for (j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+
+        // If no two elements were swapped
+        // by inner loop, then break
+        if (swapped == false)
+            break;
+    }
+}
+            </code></pre>
+    </section>
+    <section class="algorithm-card">
+        <h2>Quick Sort Algorithm</h2>
+        <p>
+            QuickSort is a sorting algorithm based on the Divide and Conquer principle. It picks an element as a pivot and partitions the given array around the picked pivot by placing the pivot in its correct position in the sorted array.
+        </p>
+        <h3>Time Complexity</h3>
+        <p>
+            Best Case : O(N log (N))
+        </p>
+        <p>
+            Average Case: O(N log (N))
+        </p>
+        <p>
+            Worst Case: O(N ^ 2)
+        </p>
+        <pre><code>
+int partition(vector&lt;int&gt;& arr, int low, int high) {
+
+    // Choose the pivot
+    int pivot = arr[high];
+
+    // Index of smaller element and indicates
+    // the right position of pivot found so far
+    int i = low - 1;
+
+    // Traverse arr[low..high] and move all smaller
+    // elements on left side. Elements from low to
+    // i are smaller after every iteration
+    for (int j = low; j &lt;= high - 1; j++) {
+        if (arr[j] &lt; pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+
+    // Move pivot after smaller elements and
+    // return its position
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+// The QuickSort function implementation
+void quickSort(vector&lt;int&gt;& arr, int low, int high) {
+
+    if (low &lt; high) {
+
+        // pi is the partition return index of pivot
+        int pi = partition(arr, low, high);
+
+        // Recursion calls for smaller elements
+        // and greater or equals elements
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+    </code></pre>
+    </section>
+</main>
+</body>
+</html>
