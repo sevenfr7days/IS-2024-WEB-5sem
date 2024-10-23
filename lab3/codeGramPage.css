@@ -1,0 +1,38 @@
+body {
+    background: black;
+    font-family: "Courier New", serif, monospace;
+    color: aliceblue;
+}
+
+.headBox {
+    font-size: 50px;
+    text-align: center;
+    position: relative;
+    top: 25px;
+    padding-bottom: 40px;
+}
+
+.columnContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 25px;
+    width: 100%;
+}
+
+.imageColumn {
+    flex: 1 1 calc(33.33% - 20px);
+    max-width: 33.33%;
+}
+
+.imageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.imageContainer > img {
+    width: 100%;
+    height: auto;
+    border-radius: 4%;
+}

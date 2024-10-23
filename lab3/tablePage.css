@@ -1,0 +1,42 @@
+body {
+    background: black;
+    font-family: "Courier New", serif;
+    color: aliceblue;
+}
+
+* {
+    font-family: "Courier New", serif;
+    color: aliceblue;
+}
+
+.table-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+.table-container .row {
+    display: contents;
+}
+
+.table-container div {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.table-container .row:nth-child(even) div {
+    background-color: #666;
+}
+
+.table-container .row:nth-child(odd) div {
+    background-color: #777;
+}
+
+.table-header {
+    background-color: #555;
+    font-weight: bold;
+}
