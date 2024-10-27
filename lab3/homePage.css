@@ -1,0 +1,227 @@
+body{
+    background: black;
+    font-family: "Courier New", serif;
+    color: aliceblue;
+}
+
+*{
+    font-family: "Courier New", serif;
+    color: aliceblue;
+}
+
+.helloBox {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    font-size: 50px;
+    text-align: center;
+    background-color: black;
+    word-spacing: 2px;
+    letter-spacing: 3px;
+    text-transform: lowercase;
+    line-height: normal;
+}
+
+.navigation {
+    position: absolute;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    left: 2%;
+    top: 35%;
+    list-style-type: none;
+}
+
+.navigation li {
+    margin: 15px 20px;
+}
+
+.navigationText {
+    color: aliceblue;
+    font-size: 28px;
+    text-decoration: none;
+}
+
+.Telegram::after {
+    padding-left: 20px;
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/telegram-white-icon.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.Cv::after {
+    padding-left: 20px;
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('https://cdn-icons-png.freepik.com/512/6588/6588143.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.Algorithms::after {
+    padding-left: 20px;
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr_JKgizAq9E31RjNcYwh7_rry70bH6BWGFw&s') no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.Projects::after {
+    padding-left: 20px;
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZc-5hRp1KN_o69t-h_UkWGJYnh7mlnfuLHg&s') no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.Github::after {
+    padding-left: 20px;
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('https://static-00.iconduck.com/assets.00/github-icon-512x512-bgdhvgjm.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.CodeGram::after {
+    padding-left: 20px;
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.navigationText:hover::after {
+    opacity: 1;
+}
+
+.quote {
+    position: absolute;
+    left: 475px;
+    font-size: 25px;
+    top: 32px;
+}
+
+a:link,
+a:visited,
+a:active {
+    text-decoration: none;
+}
+
+.year {
+    position: absolute;
+    font-size: 45px;
+    bottom: 25px;
+    right: 25px;
+}
+
+.scene {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    perspective: 800px;
+}
+
+.cube {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateCube 20s infinite linear;
+}
+
+.face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid black;
+}
+
+.front {
+    transform: translateZ(100px);
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(100px);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(100px);
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(100px);
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(100px);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(100px);
+}
+
+@keyframes rotateCube {
+    from {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    to {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+@media screen and (max-width: 880px) {
+    .quote {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 710px) {
+    .scene, .quote {
+        display: none;
+    }
+
+    .navigation {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .helloBox {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
