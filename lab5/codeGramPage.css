@@ -1,0 +1,121 @@
+body {
+    background: black;
+    font-family: "Courier New", serif, monospace;
+    color: aliceblue;
+}
+
+.headBox {
+    font-size: 50px;
+    text-align: center;
+    position: relative;
+    top: 50px;
+    padding-bottom: 50px;
+}
+
+.columnContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 25px;
+    width: 100%;
+    position: relative;
+    top: 20px;
+}
+
+.imageColumn {
+    flex: 1 1 calc(33.33% - 20px);
+    max-width: 33.33%;
+}
+
+.imageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.imageContainer > img {
+    width: 100%;
+    height: auto;
+    border-radius: 4%;
+}
+
+.navigation {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: black;
+    padding: 15px;
+    z-index: 1000;
+}
+
+.navigation ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    top: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation li {
+    margin: 0 20px;
+}
+
+.navigationText {
+    color: aliceblue;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.Telegram::after,
+.Cv::after,
+.Algorithms::after,
+.Projects::after,
+.Github::after,
+.CodeGram::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    margin-left: 5px;
+}
+
+.Telegram::after {
+    background-image: url('https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/telegram-white-icon.png');
+}
+
+.Cv::after {
+    background-image: url('https://cdn-icons-png.freepik.com/512/6588/6588143.png');
+}
+
+.Algorithms::after {
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr_JKgizAq9E31RjNcYwh7_rry70bH6BWGFw&s');
+}
+
+.Projects::after {
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZc-5hRp1KN_o69t-h_UkWGJYnh7mlnfuLHg&s');
+}
+
+.Github::after {
+    background-image: url('https://static-00.iconduck.com/assets.00/github-icon-512x512-bgdhvgjm.png');
+}
+
+.CodeGram::after {
+    background-image: url('https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png');
+}
+
+.navigationText:hover::after {
+    opacity: 1;
+}
+
+.navigation a.active {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #900;
+}

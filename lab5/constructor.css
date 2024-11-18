@@ -1,0 +1,181 @@
+body {
+    background: black;
+    font-family: "Courier New", serif;
+    color: aliceblue;
+}
+
+* {
+    font-family: "Courier New", serif;
+    color: aliceblue;
+}
+
+h1 {
+    margin-top: 45px;
+    text-align: center;
+}
+
+input[type="number"],
+select {
+    font-size: 15px;
+    padding: 10px;
+    background-color: black;
+    border: 2px solid aliceblue;
+    border-radius: 8px;
+    color: aliceblue;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+button {
+    font-size: 17px;
+    padding: 10px 10px;
+    cursor: pointer;
+    background-color: black;
+    border: 2px solid aliceblue;
+    border-radius: 5px;
+}
+
+form {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+.schedule-cell {
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.schedule-cell:hover {
+    background-color: #444444;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.task textarea {
+    width: 100%;
+    height: 30px;
+    padding: 10px;
+    border: 2px solid aliceblue;
+    border-radius: 8px;
+    background-color: black;
+    color: aliceblue;
+    resize: none;
+}
+
+.check-btn,
+.delete-btn {
+    padding: 5px;
+    border: 2px solid aliceblue;
+    border-radius: 8px;
+    background-color: black;
+    color: aliceblue;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.task.completed textarea {
+    text-decoration: line-through;
+    color: red;
+}
+
+th,
+td {
+    border: aliceblue solid 1px;
+    background-color: black;
+    font-weight: bold;
+    width: calc(100% / 7);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.navigation {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: black;
+    padding: 15px;
+    z-index: 1000;
+}
+
+.navigation ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    top: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation li {
+    margin: 0 20px;
+}
+
+.navigationText {
+    color: aliceblue;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.Telegram::after,
+.Cv::after,
+.Algorithms::after,
+.Projects::after,
+.Github::after,
+.CodeGram::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    margin-left: 5px;
+}
+
+.Telegram::after {
+    background-image: url('https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/telegram-white-icon.png');
+}
+
+.Cv::after {
+    background-image: url('https://cdn-icons-png.freepik.com/512/6588/6588143.png');
+}
+
+.Algorithms::after {
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr_JKgizAq9E31RjNcYwh7_rry70bH6BWGFw&s');
+}
+
+.Projects::after {
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZc-5hRp1KN_o69t-h_UkWGJYnh7mlnfuLHg&s');
+}
+
+.Github::after {
+    background-image: url('https://static-00.iconduck.com/assets.00/github-icon-512x512-bgdhvgjm.png');
+}
+
+.CodeGram::after {
+    background-image: url('https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png');
+}
+
+.navigationText:hover::after {
+    opacity: 1;
+}
