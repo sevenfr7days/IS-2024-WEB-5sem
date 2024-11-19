@@ -1,152 +1,169 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('schedule-form');
-    const resultContainer = document.getElementById('schedule-result');
+    initializeApp();
+});
 
+function initializeApp() {
+    const form = document.getElementById('schedule-form');
+    const resultContainer = document.getElementById('schedule-container');
+
+    attachFormHandlers(form);
+    attachChangeHandlers(['days', 'maxClasses', 'language']);
+    loadSavedState(resultContainer);
+}
+
+function attachFormHandlers(form) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         generateSchedule();
     });
+}
 
-    loadSavedState();
-
-    ['days', 'maxClasses', 'language'].forEach(id => {
+function attachChangeHandlers(ids) {
+    ids.forEach(id => {
         document.getElementById(id).addEventListener('change', saveParameters);
     });
+}
 
-    function generateSchedule() {
-        const days = parseInt(document.getElementById('days').value);
-        const maxClasses = parseInt(document.getElementById('maxClasses').value);
-        const language = document.getElementById('language').value;
+function generateSchedule() {
+    const { days, maxClasses, language } = getScheduleParameters();
+    const daysSelected = getDaysSelected(language);
+    const selectedDays = daysSelected.slice(0, days);
 
-        const daysOfWeek = language === 'en'
-            ? ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-            : ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+    const scheduleHtml = createScheduleHtml(selectedDays, maxClasses);
+    updateScheduleContainer(scheduleHtml);
+    addCellHandlers();
 
-        const selectedDays = daysOfWeek.slice(0, days);
+    loadTasks();
+    saveParameters();
+}
 
-        let scheduleHtml = '<table class="schedule-table"><thead><tr><th>Class/Day</th>';
+function getScheduleParameters() {
+    return {
+        days: parseInt(document.getElementById('days').value),
+        maxClasses: parseInt(document.getElementById('maxClasses').value),
+        language: document.getElementById('language').value,
+    };
+}
 
-        selectedDays.forEach(day => {
-            scheduleHtml += `<th>${day}</th>`;
-        });
-        scheduleHtml += '</tr></thead><tbody>';
+function getDaysSelected(language) {
+    return language === 'en'
+        ? ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        : ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+}
 
-        for (let i = 1; i <= maxClasses; i++) {
-            scheduleHtml += `<tr><td>Class ${i}</td>`;
-            for (let j = 0; j < days; j++) {
-                scheduleHtml += `<td class="schedule-cell" data-day="${j}" data-class="${i - 1}"></td>`;
+function createScheduleHtml(selectedDays, maxClasses) {
+    let html = '<table class="schedule-table"><thead><tr><th>Class/Day</th>';
+    html += selectedDays.map(day => `<th>${day}</th>`).join('');
+    html += '</tr></thead><tbody>';
+
+    for (let i = 1; i <= maxClasses; i++) {
+        html += `<tr><td>Class ${i}</td>`;
+        html += selectedDays.map((_, j) =>
+            `<td class="schedule-cell" data-day="${j}" data-class="${i - 1}"></td>`
+        ).join('');
+        html += '</tr>';
+    }
+    html += '</tbody></table>';
+    return html;
+}
+
+function updateScheduleContainer(html) {
+    const resultContainer = document.getElementById('schedule-container');
+    resultContainer.innerHTML = html;
+}
+
+function addCellHandlers() {
+    document.querySelectorAll('.schedule-cell').forEach(cell => {
+        cell.addEventListener('click', createTask);
+    });
+}
+
+function createTask(e) {
+    const cell = e.target.closest('.schedule-cell');
+    if (!cell || cell.querySelector('.task')) return;
+
+    const taskElement = createTaskElement();
+    cell.appendChild(taskElement);
+    attachTaskHandlers(taskElement, cell);
+}
+
+function createTaskElement() {
+    const task = document.createElement('div');
+    task.className = 'task';
+    task.innerHTML = `
+        <textarea maxlength="100" placeholder="Че делаем?"></textarea>
+        <button class="check-btn">✓</button>
+        <button class="delete-btn">×</button>
+    `;
+    return task;
+}
+
+function attachTaskHandlers(task, cell) {
+    const textarea = task.querySelector('textarea');
+    const checkBtn = task.querySelector('.check-btn');
+    const deleteBtn = task.querySelector('.delete-btn');
+
+    textarea.focus();
+    textarea.addEventListener('input', saveTasks);
+
+    checkBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        task.classList.toggle('completed');
+        saveTasks();
+    });
+
+    deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        cell.removeChild(task);
+        saveTasks();
+    });
+}
+
+function saveParameters() {
+    const params = getScheduleParameters();
+    localStorage.setItem('scheduleParams', JSON.stringify(params));
+}
+
+function saveTasks() {
+    const tasks = {};
+    document.querySelectorAll('.schedule-cell').forEach(cell => {
+        const task = cell.querySelector('.task');
+        if (task) {
+            const { day, classNum } = cell.dataset;
+            const taskText = task.querySelector('textarea').value;
+            const isCompleted = task.classList.contains('completed');
+            tasks[`${day}-${classNum}`] = { text: taskText, completed: isCompleted };
+        }
+    });
+    localStorage.setItem('scheduleTasks', JSON.stringify(tasks));
+}
+
+function loadTasks() {
+    const tasks = JSON.parse(localStorage.getItem('scheduleTasks')) || {};
+    Object.entries(tasks).forEach(([key, { text, completed }]) => {
+        const [day, classNum] = key.split('-');
+        const cell = document.querySelector(`.schedule-cell[data-day="${day}"][data-class="${classNum}"]`);
+        if (cell) {
+            const taskElement = createTaskElement();
+            const textarea = taskElement.querySelector('textarea');
+            textarea.value = text;
+
+            if (completed) {
+                taskElement.classList.add('completed');
             }
-            scheduleHtml += '</tr>';
+
+            cell.appendChild(taskElement);
+            attachTaskHandlers(taskElement, cell);
         }
-        scheduleHtml += '</tbody></table>';
+    });
+}
 
-        resultContainer.innerHTML = scheduleHtml;
-
-        document.querySelectorAll('.schedule-cell').forEach(cell => {
-            cell.addEventListener('click', createTask);
-        });
-
-        loadTasks();
-
-        saveParameters();
+function loadSavedState(container) {
+    const params = JSON.parse(localStorage.getItem('scheduleParams'));
+    if (params) {
+        document.getElementById('days').value = params.days;
+        document.getElementById('maxClasses').value = params.maxClasses;
+        document.getElementById('language').value = params.language;
     }
-
-
-    function createTask(e) {
-        const cell = e.target.closest('.schedule-cell');
-        if (cell.querySelector('.task')) return;
-
-        const task = document.createElement('div');
-        task.className = 'task';
-        task.innerHTML = `
-            <textarea maxlength="100" placeholder="Че делаем?"></textarea>
-            <button class="check-btn">✓</button>
-            <button class="delete-btn">×</button>
-        `;
-
-        cell.appendChild(task);
-
-        const textarea = task.querySelector('textarea');
-        textarea.focus();
-        textarea.addEventListener('input', saveTasks);
-
-        task.querySelector('.check-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            task.classList.toggle('completed');
-            saveTasks();
-        });
-
-        task.querySelector('.delete-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            cell.removeChild(task);
-            saveTasks();
-        });
-    }
-
-    function saveParameters() {
-        const params = {
-            days: document.getElementById('days').value,
-            maxClasses: document.getElementById('maxClasses').value,
-            language: document.getElementById('language').value
-        };
-        localStorage.setItem('scheduleParams', JSON.stringify(params));
-    }
-
-    function saveTasks() {
-        const tasks = {};
-        document.querySelectorAll('.schedule-cell').forEach(cell => {
-            const day = cell.dataset.day;
-            const classNum = cell.dataset.class;
-            const taskElement = cell.querySelector('.task');
-            if (taskElement) {
-                const taskText = taskElement.querySelector('textarea').value;
-                const isCompleted = taskElement.classList.contains('completed');
-                tasks[`${day}-${classNum}`] = { text: taskText, completed: isCompleted };
-            }
-        });
-        localStorage.setItem('scheduleTasks', JSON.stringify(tasks));
-    }
-
-    function loadTasks() {
-        const tasks = JSON.parse(localStorage.getItem('scheduleTasks'));
-        if (tasks) {
-            Object.entries(tasks).forEach(([key, task]) => {
-                const [day, classNum] = key.split('-');
-                const cell = document.querySelector(`.schedule-cell[data-day="${day}"][data-class="${classNum}"]`);
-                if (cell) {
-                    const taskElement = document.createElement('div');
-                    taskElement.className = 'task';
-                    if (task.completed) taskElement.classList.add('completed');
-                    taskElement.innerHTML = `
-                        <textarea maxlength="100">${task.text}</textarea>
-                        <button class="check-btn">✓</button>
-                        <button class="delete-btn">×</button>
-                    `;
-                    cell.appendChild(taskElement);
-
-                    taskElement.querySelector('textarea').addEventListener('input', saveTasks);
-                    taskElement.querySelector('.check-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        taskElement.classList.toggle('completed');
-                        saveTasks();
-                    });
-                    taskElement.querySelector('.delete-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        cell.removeChild(taskElement);
-                        saveTasks();
-                    });
-                }
-            });
-        }
-    }
-
-    function loadSavedState() {
-        const params = JSON.parse(localStorage.getItem('scheduleParams'));
-        if (params) {
-            document.getElementById('days').value = params.days;
-            document.getElementById('maxClasses').value = params.maxClasses;
-            document.getElementById('language').value = params.language;
-        }
-        generateSchedule();
-    }
-});
+    generateSchedule(container);
+}

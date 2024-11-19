@@ -96,7 +96,7 @@ td {
     border: aliceblue solid 1px;
     background-color: black;
     font-weight: bold;
-    width: calc(100% / 7);
+    width: calc(100% / 8);
 }
 
 table {
