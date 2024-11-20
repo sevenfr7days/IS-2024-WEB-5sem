@@ -33,9 +33,10 @@ function generateSchedule() {
     updateScheduleContainer(scheduleHtml);
     addCellHandlers();
 
-    loadTasks();
     saveParameters();
+    loadTasks();
 }
+
 
 function getScheduleParameters() {
     return {
@@ -129,7 +130,7 @@ function saveTasks() {
     document.querySelectorAll('.schedule-cell').forEach(cell => {
         const task = cell.querySelector('.task');
         if (task) {
-            const { day, classNum } = cell.dataset;
+            const { day, class: classNum } = cell.dataset;
             const taskText = task.querySelector('textarea').value;
             const isCompleted = task.classList.contains('completed');
             tasks[`${day}-${classNum}`] = { text: taskText, completed: isCompleted };
