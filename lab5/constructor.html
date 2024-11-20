@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table constructor</title>
+  <link rel="stylesheet" href="constructor.css">
+</head>
+<body>
+<header>
+  <div class="headBox">CodeGram</div>
+  <nav class="navigation">
+    <ul>
+      <li><a href="projectsPage.html"><span class="navigationText Projects">Projects</span></a></li>
+      <li><a href="https://github.com/sevenfr7days"><span class="navigationText Github">Github</span></a></li>
+      <li><a href="https://t.me/seven_fridays"><span class="navigationText Telegram">Telegram</span></a></li>
+      <li><a href="cv.html"><span class="navigationText Cv">CV</span></a></li>
+      <li><a href="algorithmsPage.html"><span class="navigationText Algorithms">Algorithms</span></a></li>
+      <li><a href="codeGramPage.html"><span class="navigationText CodeGram">CodeGram</span></a></li>
+      <li><a href="homePage.html"><span class="navigationText HomePage">HomePage</span></a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h1>Class schedule constructor</h1>
+  <form id="schedule-form">
+    <label for="days">Select number of days:</label>
+    <select id="days">
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+    </select>
+
+    <label for="maxClasses">Select maximum number of classes:</label>
+    <input type="number" id="maxClasses" min="1" max="10" value="5">
+
+    <label for="language">Select language:</label>
+    <select id="language">
+      <option value="ru">🇷🇺</option>
+      <option value="en">🇬🇧</option>
+    </select>
+
+    <button type="submit">Generate schedule</button>
+  </form>
+
+  <div id="schedule-container"></div>
+</main>
+
+<script src="constructor.js"></script>
+</body>
+</html>
